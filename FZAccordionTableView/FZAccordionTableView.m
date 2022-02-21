@@ -226,7 +226,16 @@
             maxSection = middleSection-1;
         }
     }
-    
+    // in ios 15, [self rectForHeaderInSection:0] returns y as a minor floating point
+    // so, if user taps on first section, it doesnt match with the first section frame
+    // here a quick and dirty solution
+    if (section == NSNotFound) {
+        if (headerView.frame.origin.y > self.frame.size.height / 2) {
+            section = maxSection;
+        } else {
+            section = minSection;
+        }
+    }
     return section;
 }
 
